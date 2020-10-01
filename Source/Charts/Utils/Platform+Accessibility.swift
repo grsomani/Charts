@@ -16,7 +16,7 @@ import Foundation
     import UIKit
 #endif
 
-internal func accessibilityPostLayoutChangedNotification(withElement element: Any? = nil)
+public func accessibilityPostLayoutChangedNotification(withElement element: Any? = nil)
 {
     UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: element)
 }

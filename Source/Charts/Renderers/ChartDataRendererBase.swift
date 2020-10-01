@@ -82,7 +82,7 @@ open class DataRenderer: Renderer
     ///   - data: A non optional data source about the chart
     ///   - defaultDescription: A simple string describing the type/design of Chart.
     /// - Returns: A header ```NSUIAccessibilityElement``` that can be added to accessibleChartElements.
-    @objc internal func createAccessibleHeader(usingChart chart: ChartViewBase,
+    @objc open func createAccessibleHeader(usingChart chart: ChartViewBase,
                                         andData data: ChartData,
                                         withDefaultDescription defaultDescription: String = "Chart") -> NSUIAccessibilityElement
     {
