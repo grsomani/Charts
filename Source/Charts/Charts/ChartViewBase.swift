@@ -111,10 +111,10 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     @objc open var highlighter: IHighlighter?
     
     /// object that manages the bounds and drawing constraints of the chart
-    internal var _viewPortHandler: ViewPortHandler!
+    open var _viewPortHandler: ViewPortHandler!
     
     /// object responsible for animations
-    internal var _animator: Animator!
+    open var _animator: Animator!
     
     /// flag that indicates if offsets calculation has already been done or not
     private var _offsetsCalculated = false
