@@ -14,6 +14,7 @@ import CoreGraphics
 
 open class ChartHighlighter : NSObject, IHighlighter
 {
+    
     /// instance of the data-provider
     @objc open weak var chart: ChartDataProvider?
     
@@ -26,6 +27,12 @@ open class ChartHighlighter : NSObject, IHighlighter
     {
         let xVal = Double(getValsForTouch(x: x, y: y).x)
         return getHighlight(xValue: xVal, x: x, y: y)
+    }
+    
+    open func getHighlights(x: CGFloat, y: CGFloat) -> [Highlight]
+    {
+        let xVal = Double(getValsForTouch(x: x, y: y).x)
+        return getHighlights(xValue: xVal, x: x, y: y)
     }
     
     /// - Parameters:
