@@ -736,7 +736,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             }
             else if self.isHighlightPerDragEnabled
             {
-                // We will only handle highlights on NSUIGestureRecognizerState.Changed
+//                 We will only handle highlights on                NSUIGestureRecognizerState.Changed
                 
                 _isDragging = false
             }
@@ -763,14 +763,14 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             }
             else if isHighlightPerDragEnabled
             {
-                let h = getHighlightByTouchPoint(recognizer.location(in: self))
+                let h = getHighlightsByTouchPoint(recognizer.location(in: self))
                 
                 let lastHighlighted = self.lastHighlighted
                 
-                if h != lastHighlighted
+                if h.first != lastHighlighted
                 {
-                    self.lastHighlighted = h
-                    self.highlightValue(h, callDelegate: true)
+                    self.lastHighlighted = h.first
+                    self.highlightValues(h)
                 }
             }
         }
