@@ -532,6 +532,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     private var _decelerationDisplayLink: NSUIDisplayLink!
     private var _decelerationVelocity = CGPoint()
     
+    @objc open func isDraggingHighlighterInZommedIn() -> Bool
+    {
+        return false
+    }
+    
     @objc open func tapGestureRecognized(_ recognizer: NSUITapGestureRecognizer)
     {
         if _data === nil
@@ -681,7 +686,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     }
     #endif
     
-    @objc open func panGestureRecognized(_ recognizer: NSUIPanGestureRecognizer)
+    @objc private func panGestureRecognized(_ recognizer: NSUIPanGestureRecognizer)
     {
         if recognizer.state == NSUIGestureRecognizerState.began && recognizer.nsuiNumberOfTouches() > 0
         {
@@ -709,6 +714,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 else if !self.dragYEnabled
                 {
                     translation.y = 0.0
+                }
+                
+                if isDraggingHighlighterInZommedIn()
+                {
+                    _isDragging = false
                 }
                 
                 let didUserDrag = translation.x != 0.0 || translation.y != 0.0
