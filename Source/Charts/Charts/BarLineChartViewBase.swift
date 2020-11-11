@@ -727,7 +727,6 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 
                 if isDraggingHighlighterInZommedIn(point: recognizer.location(in: self))
                 {
-                    getCurrentTapPosition(point: recognizer.location(in: self))
                     _isDragging = false
                 }
                 
@@ -791,6 +790,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 {
                     self.lastHighlighted = h.first
                     self.highlightValues(h)
+                    getCurrentTapPosition(point: recognizer.location(in: self))
                 }
             }
         }
