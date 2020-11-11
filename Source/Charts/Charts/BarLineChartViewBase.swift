@@ -542,7 +542,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         return false
     }
     
-    @objc open func getCurrentTapPosition(point: CGPoint){}
+    @objc open func getCurrentTapPosition(point: CGPoint, highlighted: Highlight){}
     
     @objc private func tapGestureRecognized(_ recognizer: NSUITapGestureRecognizer)
     {
@@ -553,7 +553,6 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         if recognizer.state == NSUIGestureRecognizerState.ended
         {
-            getCurrentTapPosition(point: recognizer.location(in: self))
             if isTapPointInMarkerRect(point: recognizer.location(in: self)) { return }
             if !isHighLightPerTapEnabled { return }
             
@@ -568,6 +567,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             {
                 lastHighlighted = h.first
                 highlightValues(h)
+                if let high = h.first{
+                    getCurrentTapPosition(point: recognizer.location(in: self), highlighted: high)
+                }
             }
         }
     }
@@ -790,7 +792,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 {
                     self.lastHighlighted = h.first
                     self.highlightValues(h)
-                    getCurrentTapPosition(point: recognizer.location(in: self))
+                    if let high = h.first{
+                        getCurrentTapPosition(point: recognizer.location(in: self), highlighted: high)
+                    }
                 }
             }
         }
