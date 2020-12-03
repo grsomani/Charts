@@ -95,6 +95,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     internal var _pinchGestureRecognizer: NSUIPinchGestureRecognizer!
     #endif
     internal var _panGestureRecognizer: NSUIPanGestureRecognizer!
+    open var myPanGestureRecognizer: NSUIPanGestureRecognizer {
+        return _panGestureRecognizer
+    }
     
     /// flag that indicates if a custom viewport offset has been set
     private var _customViewPortEnabled = false
@@ -525,6 +528,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     private var _closestDataSetToTouch: IChartDataSet!
     private var _panGestureReachedEdge: Bool = false
     private weak var _outerScrollView: NSUIScrollView?
+    open weak var myOuterScrollView: NSUIScrollView? {
+        return _outerScrollView
+    }
     
     private var _lastPanPoint = CGPoint() /// This is to prevent using setTranslation which resets velocity
     
@@ -970,7 +976,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             gestureRecognizer == _panGestureRecognizer
         {
             var scrollView = self.superview
-            while scrollView != nil && !(scrollView is NSUIScrollView) || scrollView?.tag != 100
+            while scrollView != nil && !(scrollView is NSUIScrollView) /*|| scrollView?.tag != 100*/
             {
                 scrollView = scrollView?.superview
             }
