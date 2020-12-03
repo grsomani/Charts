@@ -528,8 +528,14 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     private var _closestDataSetToTouch: IChartDataSet!
     private var _panGestureReachedEdge: Bool = false
     private weak var _outerScrollView: NSUIScrollView?
-    open weak var myOuterScrollView: NSUIScrollView? {
-        return _outerScrollView
+    open var myOuterScrollView: NSUIScrollView? {
+        get {
+            return _outerScrollView
+        }
+        set {
+            _outerScrollView = newValue
+        }
+       
     }
     
     private var _lastPanPoint = CGPoint() /// This is to prevent using setTranslation which resets velocity
