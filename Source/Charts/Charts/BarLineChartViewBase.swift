@@ -568,7 +568,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             if isTapPointInMarkerRect(point: recognizer.location(in: self)) { return }
             if !isHighLightPerTapEnabled { return }
             
-            let h = getHighlightsByTouchPoint(recognizer.location(in: self))
+            var h = getHighlightsByTouchPoint(recognizer.location(in: self))
             
             if h.first === nil || h.first == self.lastHighlighted
             {
@@ -577,6 +577,13 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             }
             else
             {
+                ///Added 27.12.20 for fix blinking highlighter on Today's performance
+                if h[0].x != h[1].x {
+                    h.removeAll()
+                    guard let high = getHighlightByTouchPoint(recognizer.location(in: self)) else { return }
+                    h.append(high)
+                }
+                ///
                 lastHighlighted = h.first
                 highlightValues(h)
                 if let high = h.first{
@@ -796,12 +803,19 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             }
             else if isHighlightPerDragEnabled
             {
-                let h = getHighlightsByTouchPoint(recognizer.location(in: self))
+                var h = getHighlightsByTouchPoint(recognizer.location(in: self))
                 
                 let lastHighlighted = self.lastHighlighted
                 
                 if h.first != lastHighlighted
                 {
+                    ///Added 27.12.20 for fix blinking highlighter on Today's performance
+                    if h[0].x != h[1].x {
+                        h.removeAll()
+                        guard let high = getHighlightByTouchPoint(recognizer.location(in: self)) else { return }
+                        h.append(high)
+                    }
+                    ///
                     self.lastHighlighted = h.first
                     self.highlightValues(h)
                     if let high = h.first{
