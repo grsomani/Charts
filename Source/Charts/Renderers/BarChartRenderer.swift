@@ -60,6 +60,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     
     // [CGRect] per dataset
     private var _buffers = [Buffer]()
+    open var barCornerRadius: CGFloat = 0.0
+    open var barBottomOffset: CGFloat = 0.0
     
     open override func initBuffers()
     {
@@ -168,7 +170,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                  * +---------------------------------------------------------------+---------------------------------------------------------------+
                  */
                 var topOffset: CGFloat = 0.0
-                var bottomOffset: CGFloat = 0.0
+                var bottomOffset: CGFloat = barBottomOffset
                 if let offsetView = dataProvider as? BarChartView
                 {
                     let offsetAxis = offsetView.getAxis(dataSet.axisDependency)
@@ -432,7 +434,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             }
             
 //            context.fill(barRect)
-            drawRoundedRect(context: context, rect: barRect)
+            drawRoundedRect(context: context, rect: barRect, radius: barCornerRadius)
             
             if drawBorder
             {
@@ -460,7 +462,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         context.restoreGState()
     }
     
-    open func drawRoundedRect(context: CGContext, rect: CGRect) {
+    open func drawRoundedRect(context: CGContext, rect: CGRect, radius: CGFloat) {
         context.fill(rect)
     }
     
