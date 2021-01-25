@@ -810,10 +810,12 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 if h.first != lastHighlighted
                 {
                     ///Added 27.12.20 for fix blinking highlighter on Today's performance
-                    if h[0].x != h[1].x {
-                        h.removeAll()
-                        guard let high = getHighlightByTouchPoint(recognizer.location(in: self)) else { return }
-                        h.append(high)
+                    if h.count > 1 {
+                        if h[0].x != h[1].x {
+                            h.removeAll()
+                            guard let high = getHighlightByTouchPoint(recognizer.location(in: self)) else { return }
+                            h.append(high)
+                        }
                     }
                     ///
                     self.lastHighlighted = h.first
