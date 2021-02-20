@@ -556,6 +556,18 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     @objc open func getCurrentTapPosition(point: CGPoint, highlighted: Highlight){}
     
+    private func calculateNearestHighlights(highlights: inout [Highlight], highlight: Highlight) {
+        if highlights.count > 1 {
+            let h = highlights
+            highlights.removeAll()
+            for value in h {
+                if value.x == highlight.x {
+                    highlights.append(value)
+                }
+            }
+        }
+    }
+    
     @objc private func tapGestureRecognized(_ recognizer: NSUITapGestureRecognizer)
     {
         if _data === nil
@@ -569,8 +581,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             if !isHighLightPerTapEnabled { return }
             
             var h = getHighlightsByTouchPoint(recognizer.location(in: self))
+            guard let high = getHighlightByTouchPoint(recognizer.location(in: self)) else { return }
             
-            if h.first === nil || h.first == self.lastHighlighted
+            if h.last === nil || h.last == self.lastHighlighted
             {
                 lastHighlighted = nil
                 highlightValue(nil)
@@ -578,17 +591,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             else
             {
                 ///Added 27.12.20 for fix blinking highlighter on Today's performance
-                if h.count > 1 {
-                    if h[0].x != h[1].x {
-                        h.removeAll()
-                        guard let high = getHighlightByTouchPoint(recognizer.location(in: self)) else { return }
-                        h.append(high)
-                    }
-                }
+                calculateNearestHighlights(highlights: &h, highlight: high)
                 ///
-                lastHighlighted = h.first
+                lastHighlighted = h.last
                 highlightValues(h)
-                if let high = h.first{
+                if let high = h.last{
                     getCurrentTapPosition(point: recognizer.location(in: self), highlighted: high)
                 }
             }
@@ -806,23 +813,18 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             else if isHighlightPerDragEnabled
             {
                 var h = getHighlightsByTouchPoint(recognizer.location(in: self))
+                guard let high = getHighlightByTouchPoint(recognizer.location(in: self)) else { return }
                 
                 let lastHighlighted = self.lastHighlighted
                 
-                if h.first != lastHighlighted
+                if h.last != lastHighlighted
                 {
                     ///Added 27.12.20 for fix blinking highlighter on Today's performance
-                    if h.count > 1 {
-                        if h[0].x != h[1].x {
-                            h.removeAll()
-                            guard let high = getHighlightByTouchPoint(recognizer.location(in: self)) else { return }
-                            h.append(high)
-                        }
-                    }
+                    calculateNearestHighlights(highlights: &h, highlight: high)
                     ///
-                    self.lastHighlighted = h.first
+                    self.lastHighlighted = h.last
                     self.highlightValues(h)
-                    if let high = h.first{
+                    if let high = h.last{
                         getCurrentTapPosition(point: recognizer.location(in: self), highlighted: high)
                     }
                 }
