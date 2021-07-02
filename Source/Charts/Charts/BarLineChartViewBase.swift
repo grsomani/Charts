@@ -594,6 +594,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 calculateNearestHighlights(highlights: &h, highlight: high)
                 ///
                 lastHighlighted = h.last
+                ///Added 02.07.2021 for enebling calling of the delegate
+                highlightValue(h.first, callDelegate: true)
+                ///
                 highlightValues(h)
                 if let high = h.last{
                     getCurrentTapPosition(point: recognizer.location(in: self), highlighted: high)
@@ -823,6 +826,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                     calculateNearestHighlights(highlights: &h, highlight: high)
                     ///
                     self.lastHighlighted = h.last
+                    ///Added 02.07.2021 for enebling calling of the delegate
+                    highlightValue(h.first, callDelegate: true)
+                    ///
                     self.highlightValues(h)
                     if let high = h.last{
                         getCurrentTapPosition(point: recognizer.location(in: self), highlighted: high)
